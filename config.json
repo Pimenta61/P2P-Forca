@@ -15,5 +15,5 @@
   "max_players": 4,
   "turn_timeout": 30,
   "words_file": "words.txt",
-  "log_file": null
+  "log_file": "app.log"
 }

@@ -27,9 +27,26 @@ class Config:
         """Propriedade utilitária para obter o peer_id."""
         return f"{self.name}@{self.namespace}"
 
+def validate_config(config: Config) -> None:
+    if not (1 <= len(config.namespace) <= 64):
+        raise ValueError("namespace should have between 1 and 64 characters")
+
+    if not (1 <= len(config.name) <= 64):
+        raise ValueError("name should have between 1 and 64 characters")
+
+    if not (1 <= config.listen_port <= 65535):
+        raise ValueError("listen_port should be between 1 and 65535")
+
+    if not (1 <= config.register_ttl <= 86400):
+        raise ValueError("register_ttl should be between 1 and 86400")
 
 def load_config(file_path: str = "config.json") -> Config:
     with open(file_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    return Config(**data)
+    config = Config(**data)
+
+    # TODO sobrescrever com argumentos de linha de comando
+    validate_config(config)
+
+    return config

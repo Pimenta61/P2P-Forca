@@ -34,6 +34,9 @@ def validate_config(config: Config) -> None:
     if not (1 <= len(config.name) <= 64):
         raise ValueError("name should have between 1 and 64 characters")
 
+    if not (1 <= config.rdv_port <= 65535):
+        raise ValueError("listen_port should be between 1 and 65535")
+
     if not (1 <= config.listen_port <= 65535):
         raise ValueError("listen_port should be between 1 and 65535")
 

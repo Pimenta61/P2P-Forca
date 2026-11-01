@@ -3,6 +3,7 @@ from dataclasses import asdict, dataclass
 
 from app.config_loader import Config
 
+
 @dataclass
 class RendezvousMessage:
     # REQUEST
@@ -24,15 +25,19 @@ class RendezvousMessage:
     def to_json(self) -> str:
         return json.dumps(self.to_dict()) + "\n"
 
+    def is_ok(self) -> bool:
+        return self.status == "OK"  # "ERROR" caso contrário
+
     @classmethod
-    def from_dict(cls, data: dict) -> RendezvousMessage:
+    def from_dict(cls, data: dict):
         return cls(**{k: v for k, v in data.items() if k in cls.__annotations__})
 
     @classmethod
-    def build_register(cls, config: Config) -> RendezvousMessage:
-        return cls(type="REGISTER", 
-                   namespace=config.namespace,
-                   name=config.name,
-                   port=config.listen_port,
-                   ttl=config.register_ttl)   
-
+    def build_register(cls, config: Config):
+        return cls(
+            type="REGISTER",
+            namespace=config.namespace,
+            name=config.name,
+            port=config.listen_port,
+            ttl=config.register_ttl,
+        )

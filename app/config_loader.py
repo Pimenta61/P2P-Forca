@@ -1,6 +1,7 @@
 import json
 from dataclasses import dataclass
-from typing import Optional
+
+RDVServer = tuple[str, int]
 
 @dataclass
 class Config:
@@ -20,12 +21,18 @@ class Config:
     max_players: int = 4
     turn_timeout: int = 30
     words_file: str = "words.txt"
-    log_file: Optional[str] = None
+    log_file: str | None = None
 
     @property
     def peer_id(self) -> str:
         """Propriedade utilitária para obter o peer_id."""
         return f"{self.name}@{self.namespace}"
+
+    @property
+    def rdv_server(self) -> RDVServer:
+        """Propriedade utilitária para obter o servidor em formato de tupla"""
+        return self.rdv_host, self.rdv_port
+
 
 def validate_config(config: Config) -> None:
     if not (1 <= len(config.namespace) <= 64):
@@ -42,6 +49,7 @@ def validate_config(config: Config) -> None:
 
     if not (1 <= config.register_ttl <= 86400):
         raise ValueError("register_ttl should be between 1 and 86400")
+
 
 def load_config(file_path: str = "config.json") -> Config:
     with open(file_path, "r", encoding="utf-8") as f:

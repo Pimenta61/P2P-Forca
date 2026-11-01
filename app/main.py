@@ -26,6 +26,7 @@ def main():
     cfg: Config = load_config()
     setup_logging(cfg.log_file)
     rendezvous_client.register(cfg)
+    rendezvous_client.discover(cfg.rdv_server, cfg.peer_id)
 
 
 if __name__ == "__main__":

@@ -41,3 +41,10 @@ class RendezvousMessage:
             port=config.listen_port,
             ttl=config.register_ttl,
         )
+
+    @classmethod
+    def build_discover(cls, namespace: str | None):
+        return cls(
+            type="DISCOVER",
+            namespace=namespace
+        )

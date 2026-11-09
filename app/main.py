@@ -31,3 +31,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+from app.cli import exibir_status, obter_chute
+
+exibir_status(palavra_atual, letras_certas, letras_erradas)
+letra_digitada = obter_chute()
